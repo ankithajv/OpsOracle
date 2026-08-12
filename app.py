@@ -275,15 +275,18 @@ for k, v in defaults.items():
 # ─────────────────────────────────────────────────────────────────────────────
 
 # ─────────────────────────────────────────────────────────────────────────────
-# TOP NAVIGATION  (Horizontal Radio Navbar)
+# TOP NAVIGATION  (Horizontal Pills Navbar)
 # ─────────────────────────────────────────────────────────────────────────────
 st.title("OpsOracle")
-selected_page = st.radio("Navigation", [
+selected_page = st.pills("Navigation", [
     "Dashboard",
     "GitHub Connect",
     "Deploy History",
     "Settings",
-], horizontal=True, label_visibility="collapsed")
+], default="Dashboard", label_visibility="collapsed")
+
+if selected_page is None:
+    selected_page = "Dashboard"
 
 st.divider()
 
