@@ -17,11 +17,11 @@ st.set_page_config(
     page_title="OpsOracle | Deployment Risk",
     page_icon="",
     layout="wide",
-    initial_sidebar_state="collapsed",
+    initial_sidebar_state="expanded",
 )
 
 # ─────────────────────────────────────────────────────────────────────────────
-# CSS — hide sidebar + toggle button entirely; style the top nav tabs
+# CSS
 # ─────────────────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
@@ -36,58 +36,9 @@ html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
     padding-bottom: 1rem !important;
 }
 
-/* Hide sidebar and its open/close toggle completely */
-[data-testid="stSidebar"]        { display: none !important; }
-[data-testid="collapsedControl"] { display: none !important; }
-
 /* Hide Streamlit chrome */
 #MainMenu, footer, header { visibility: hidden; }
 
-/* Tab bar styling — make it look like a proper nav bar */
-div[data-testid="stTabs"] > div:first-child {
-    background-color: #141922;
-    border-bottom: 1px solid #1e2535;
-    padding: 0 1rem;
-    gap: 0;
-    display: flex;
-    align-items: center;
-}
-
-/* INJECT TITLE INTO THE TAB BAR DIRECTLY SO IT SHARES THE ROW */
-div[data-testid="stTabs"] > div:first-child::before {
-    content: "OpsOracle / Deployment Risk";
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #e2e8f0;
-    margin-right: 1.5rem;
-    letter-spacing: -0.2px;
-}
-
-div[data-testid="stTabs"] button[role="tab"] {
-    font-size: 0.82rem !important;
-    font-weight: 500 !important;
-    color: #8892a4 !important;
-    padding: 0.7rem 1.2rem !important;
-    border-radius: 0 !important;
-    border: none !important;
-    background: transparent !important;
-    border-bottom: 2px solid transparent !important;
-    margin: 0 !important;
-}
-div[data-testid="stTabs"] button[role="tab"]:hover {
-    color: #e2e8f0 !important;
-    background: rgba(255,255,255,0.04) !important;
-}
-div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
-    color: #e2e8f0 !important;
-    font-weight: 600 !important;
-    border-bottom: 2px solid #5b8dee !important;
-    background: transparent !important;
-}
-/* Remove the default tab underline drawn by Streamlit */
-div[data-testid="stTabs"] > div:first-child > div {
-    gap: 0 !important;
-}
 </style>
 """, unsafe_allow_html=True)
 
@@ -327,7 +278,8 @@ for k, v in defaults.items():
 # ─────────────────────────────────────────────────────────────────────────────
 # TOP NAVIGATION  (st.tabs = horizontal, no sidebar needed)
 # ─────────────────────────────────────────────────────────────────────────────
-tab_dash, tab_gh, tab_hist, tab_settings = st.tabs([
+st.sidebar.title("OpsOracle")
+selected_page = st.sidebar.radio("Navigation", [
     "Dashboard",
     "GitHub Connect",
     "Deploy History",
@@ -338,7 +290,7 @@ tab_dash, tab_gh, tab_hist, tab_settings = st.tabs([
 # ═════════════════════════════════════════════════════════════════════════════
 # TAB 1 — DASHBOARD
 # ═════════════════════════════════════════════════════════════════════════════
-with tab_dash:
+if selected_page == "Dashboard":
 
     # Controls row
     ctrl1, ctrl2, ctrl3 = st.columns([1.2, 2, 1])
@@ -490,7 +442,7 @@ with tab_dash:
 # ═════════════════════════════════════════════════════════════════════════════
 # TAB 2 — GITHUB CONNECT
 # ═════════════════════════════════════════════════════════════════════════════
-with tab_gh:
+elif selected_page == "GitHub Connect":
     st.markdown("## GitHub Connect")
     st.caption("Connect your repository to receive live deployment events and automatic risk scoring.")
     st.divider()
@@ -629,7 +581,7 @@ with tab_gh:
 # ═════════════════════════════════════════════════════════════════════════════
 # TAB 3 — DEPLOY HISTORY
 # ═════════════════════════════════════════════════════════════════════════════
-with tab_hist:
+elif selected_page == "Deploy History":
     st.markdown("## Deploy History")
     st.caption("All deployments analysed by OpsOracle. Filter and drill into individual events.")
     st.divider()
@@ -738,7 +690,7 @@ with tab_hist:
 # ═════════════════════════════════════════════════════════════════════════════
 # TAB 4 — SETTINGS
 # ═════════════════════════════════════════════════════════════════════════════
-with tab_settings:
+elif selected_page == "Settings":
     st.markdown("## Settings")
     st.caption("Configure API endpoints, risk thresholds, and notifications.")
     st.divider()
