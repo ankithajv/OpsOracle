@@ -28,7 +28,6 @@ st.markdown("""
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
-.stApp { background-color: #0f1117; color: #e2e8f0; }
 
 /* Remove massive default empty space at the top */
 .block-container {
@@ -276,16 +275,17 @@ for k, v in defaults.items():
 # ─────────────────────────────────────────────────────────────────────────────
 
 # ─────────────────────────────────────────────────────────────────────────────
-# TOP NAVIGATION  (st.tabs = horizontal, no sidebar needed)
+# TOP NAVIGATION  (Horizontal Radio Navbar)
 # ─────────────────────────────────────────────────────────────────────────────
-st.sidebar.title("OpsOracle")
-selected_page = st.sidebar.radio("Navigation", [
+st.title("OpsOracle")
+selected_page = st.radio("Navigation", [
     "Dashboard",
     "GitHub Connect",
     "Deploy History",
     "Settings",
-])
+], horizontal=True, label_visibility="collapsed")
 
+st.divider()
 
 # ═════════════════════════════════════════════════════════════════════════════
 # TAB 1 — DASHBOARD
